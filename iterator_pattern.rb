@@ -1,6 +1,6 @@
 class ArrayIterator
   def initialize(array)
-    @array = array
+    @array = Array.new(array)
     @index = 0
   end
 
@@ -31,9 +31,10 @@ while i.has_next?
 end
 
 def for_each_element(array)
+  copy = Array.new(array)
   i = 0
-  while i < array.length
-    yield(array[i])
+  while i < copy.length
+    yield(copy[i])
     i += 1
   end
 end
