@@ -21,6 +21,10 @@ class CreateFile < Command
     f.write(@contents)
     f.close
   end
+  
+  def unexecute
+    File.delete(@path)
+  end
 end
 
 class DeleteFile < Command
@@ -30,7 +34,19 @@ class DeleteFile < Command
   end
 
   def execute
+    if File.exists?(@path)
+      @contents = File.read(@path)
+    end
+
     File.delete(@path)
+  end
+
+  def unexecute
+    if @contents
+      f = File.open(@path, "w")
+      f.write(@countents)
+      f.close
+    end
   end
 end
 
@@ -44,7 +60,21 @@ class CopyFile < Command
   end
 
   def execute
+    if File.exists?(@source)
+      @contents = File.read(@source)
+    end
+
     FileUtils.copy(@source, @target)
+  end
+
+  def unexecute
+    if @contents
+      f = File.open(@source, "w")
+      f.write(@countents)
+      f.close
+    end
+
+    File.delete(@target)
   end
 end
 
@@ -59,6 +89,10 @@ class CompositeCommand < Command
 
   def execute
     @commands.each {|cmd| cmd.execute }
+  end
+
+  def unexecute
+    @commands.reverse.each {|cmd| cmd.unexecute }
   end
 
   def description
