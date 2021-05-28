@@ -48,3 +48,30 @@ account.withdraw(10)
 proxy = BankAccountProxy.new(account)
 proxy.deposit(50)
 proxy.withdraw(10)
+
+class VirtualAccountProxy
+  def initialize(starting_balance = 0)
+    @starting_balance = starting_balance
+  end
+
+  def balance
+    s = subject
+    return s.balance
+  end
+
+  def deposit(amount)
+    s = subject
+    s.deposit(amount)
+  end
+
+  def withdraw(amount)
+    s = subject
+    s.withdraw(amount)
+  end
+
+  def subject
+    @subject || (@subject = @creation_block.call)
+  end
+end
+
+account = VirtualAccountProxy.new { BankAccount.new(10) }
