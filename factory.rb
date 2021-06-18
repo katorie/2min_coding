@@ -16,7 +16,7 @@ class Duck
   end
 end
 
-class Flog
+class Frog
   def initialize(name)
     @name = name
   end
@@ -54,45 +54,6 @@ class WaterLily
   end
 end
 
-class Pond
-  def initialize(number_animals, animal_class, number_plants, plant_class)
-    @animal_class = animal_class
-    @plant_class = plant_class
-
-    @animals = []
-    number_animals.times do |i|
-      animal = new_organism(:animal, "動物#{i}")
-      @animals << animal
-    end
-
-    @plants = []
-    number_plants.times do |i|
-      plant = new_organism(:plant, "植物#{i}")
-      @plants << plant
-    end
-  end
-
-  def simulate_one_day
-    @plants.each {|plant| plant.grow }
-    @animals.each {|animal| animal.speak }
-    @animals.each {|animal| animal.eat }
-    @animals.each {|animal| animal.sleep }
-  end
-
-  def new_organism(type, name)
-    if type == :animal
-      @animal_class.new(name)
-    elsif type == :plant
-      @plant_class.new(name)
-    else
-      raise "Unknown organism type: #{type}"
-    end
-  end
-end
-
-pond = Pond.new(3, Duck, 2, WaterLily)
-pond.simulate_one_day
-
 class Tree
   def initialize(name)
     @name = name
@@ -121,8 +82,53 @@ class Tiger
   end
 end
 
-class Habitat < Pond
+class PondOrganismFactory
+  def new_animal(name)
+    Frog.new(name)
+  end
+
+  def new_plant(name)
+    Algae.new(name)
+  end
 end
 
-jungle = Habitat.new(1, Tiger, 4, Tree)
+class JungleOrganismFactory
+  def new_animal(name)
+    Tiger.new(name)
+  end
+
+  def new_plant(name)
+    Tree.new(name)
+  end
+end
+
+class Habitat
+  def initialize(number_animals, number_plants, organism_factory)
+    @organism_factory = organism_factory
+
+    @animals = []
+    number_animals.times do |i|
+      animal = organism_factory.new_animal("動物#{i}")
+      @animals << animal
+    end
+
+    @plants = []
+    number_plants.times do |i|
+      plant = organism_factory.new_plant("植物#{i}")
+      @plants << plant
+    end
+  end
+
+  def simulate_one_day
+    @plants.each {|plant| plant.grow }
+    @animals.each {|animal| animal.speak }
+    @animals.each {|animal| animal.eat }
+    @animals.each {|animal| animal.sleep }
+  end
+end
+
+jungle = Habitat.new(1, 4, JungleOrganismFactory.new)
 jungle.simulate_one_day
+
+pond = Habitat.new(2, 4, PondOrganismFactory.new)
+pond.simulate_one_day
