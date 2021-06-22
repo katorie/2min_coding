@@ -10,6 +10,15 @@ class Computer
   end
 end
 
+class DesktopComputer < Computer
+end
+
+class LaptopComputer < Computer
+  def initialize(display = :crt, motherboard = Motherboard.new, drives = [])
+    super(:lcd, motherboard, drives)
+  end
+end
+
 class CPU
 end
 
@@ -52,12 +61,18 @@ class ComputerBuilder
     @computer.motherboard.cpu = TurboCPU.new
   end
 
-  def display=(display)
-    @computer.display = display
-  end
-
   def memory_size=(size_in_mb)
     @computer.mother_board.memory_size = size_in_mb
+  end
+end
+
+class DesktopComputerBuilder < ComputerBuilder
+  def initialize
+    @computer = DesktopComputer.new
+  end
+
+  def display=(display)
+    @computer.display = display
   end
 
   def add_cd(writer = false)
@@ -70,5 +85,27 @@ class ComputerBuilder
 
   def add_hard_disk(size_in_mb)
     @computer.drives << Drive.new(:hard_disk, size_in_mb, true)
+  end
+end
+
+class LaptopComputerBuilder < ComputerBuilder
+  def initialize
+    @computer = LaptopComputer.new
+  end
+
+  def display=(display)
+    raise "Laptop display must be lcd" unless display == :lcd
+  end
+
+  def add_cd(writer = false)
+    @computer.dirves << LaptopDirve.new(:cd, 760, writer)
+  end
+
+  def add_dvd(writer = false)
+    @computer.drives << LaptopDirve.new(:dvd, 4000, writer)
+  end
+
+  def add_hard_disk(size_in_mb)
+    @computer.drives << LaptopDrive.new(:hard_disk, size_in_mb, true)
   end
 end
