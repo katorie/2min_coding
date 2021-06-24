@@ -6,7 +6,7 @@ end
 class All < Expression
   def evaluate(dir)
     results = []
-    Find.find(dif) do |p|
+    Find.find(dir) do |p|
       next unless File.file?(p)
       results << p
     end
@@ -55,3 +55,16 @@ class Writable < Expression
     results
   end
 end
+
+class Not < Expression
+  def initialize(expression)
+    @expression = expression
+  end
+
+  def evaluate(dir)
+    All.new.evaluate(dir) - @expression.evaluate(dir)
+  end
+end
+
+expr_not_writable = Not.new(Writable.new)
+readonly_files = expr_not_writable.evaluate('test_dir')
