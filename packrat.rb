@@ -1,18 +1,19 @@
 require 'finder'
 
 def backup(dir, find_expression = All.new)
-  puts "Backup called, source dir=#{dir} find expr= #{find_expression}"
+  Backup.instance.data_sources << DataSource.new(dir, find_expression)
 end
 
 def to(backup_directory)
-  puts "To called, backup dir=#{backup_directory}"
+  Backup.instance.backup_directory = backup_directory
 end
 
 def interval(minutes)
-  puts "Interval called, interval= #{interval} minutes"
+  Backup.instance.interval = minutes
 end
 
 eval(File.read('backup.pr'))
+Backup.instance.run
 
 class Backup
   include Singleton
@@ -37,5 +38,27 @@ class Backup
       backup_files
       sleep(@interval * 60)
     end
+  end
+end
+
+class DataSource
+  attr_reader :directory, :finder_expression
+
+  def initialize(directory, finder_expression)
+    @directory = directory
+    @finder_expression = finder_expression
+  end
+
+  def backup(backup_directory)
+    files = @finder_expression.evaluate(@directory)
+    files.each do |file|
+      backup_file(file, backup_directory)
+    end
+  end
+  
+  def backup_file(path, backup_directory)
+    copy_path = File.join(backup_directory, path)
+    FileUtils.mkdir_p(File.dirname(copy_path))
+    FileUtils.cp(path, copy_path)
   end
 end
