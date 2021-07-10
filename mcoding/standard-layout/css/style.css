@@ -21,20 +21,6 @@ a:link, a:visited, a:hover, a:active {
   background: url('../images/bg-header.gif') repeat-x;
   box-shadow: 0 0 10px 1px #e3e3e3;
 }
-.logo {
-  width: 225px;
-  height: 56px;
-  margin: 0 auto;
-  background: url('../images/logo.png') no-repeat;
-  overflow: hidden;
-  text-indent: 100%;
-  white-space: nowrap;
-}
-.logo a {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 .wrapper {
   width: 970px;
   margin: 30px auto 40px;
@@ -55,4 +41,26 @@ a:link, a:visited, a:hover, a:active {
   content: '';
   display: block;
   clear: both;
+}
+.logo {
+  width: 225px;
+  height: 56px;
+  margin: 0 auto;
+  background: url('../images/logo.png') no-repeat;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+.logo a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.global-nav {
+  margin-top: 15px;
+  text-align: center;
+}
+.global-nav .nav-item {
+  display: inline-block;
+  margin: 0 10px;
 }
