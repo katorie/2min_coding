@@ -253,7 +253,7 @@ a:link, a:visited, a:hover, a:active {
 .ranking .ranking-item a:hover {
   opacity: 0.8;
 }
-.rainking .image {
+.ranking .image {
   width: 55px;
   height: 55px;
 }
@@ -264,4 +264,19 @@ a:link, a:visited, a:hover, a:active {
   vertical-align: top;
   font-size: 1.2rem;
   line-height: 1.5;
+}
+.ranking .order {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 0 10px;
+  border: 1px solid #ccc;
+  color: #aaa;
+  vertical-align: 20px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 16px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
