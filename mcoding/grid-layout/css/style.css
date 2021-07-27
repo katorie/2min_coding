@@ -61,3 +61,15 @@ a:link, a:visited, a:hover, a:active {
   box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.3);
   opacity: 0.8;
 }
+.item-maindish , .item-maindish .category::before {
+  border-color: #FFC0CB;
+}
+.item-appetizer, .item-appetizer .category::before {
+  border-color: #76C047;
+}
+.item-column, .item-column .category::before {
+  border-color: #FFF100;
+}
+.item-breaktime, .item-breaktime .category::before {
+  border-color: #C1EFFF;
+}
