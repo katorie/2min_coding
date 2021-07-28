@@ -73,3 +73,9 @@ a:link, a:visited, a:hover, a:active {
 .item-breaktime, .item-breaktime .category::before {
   border-color: #C1EFFF;
 }
+.item-m {
+  width: 364px;
+}
+.item-l {
+  width: 732px;
+}
